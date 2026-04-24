@@ -13,7 +13,7 @@ export const generateWhatsappLink = (cart: CartItem[]): string => {
   });
 
   message += `\n*Total a pagar: $${total.toFixed(2)}*\n\n`;
-  message += "Escríbeme para enviarte el link de PayPhone o coordinar el pago en efectivo/transferencia. ¡Gracias!";
+  message += "Ayudame con el link de pago para completar la compra, ¡Gracias!";
   
   // IMPORTANTE: encodeURIComponent es lo que limpia el mensaje para WhatsApp
   return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;

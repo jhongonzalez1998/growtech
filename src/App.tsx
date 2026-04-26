@@ -22,16 +22,23 @@ export default function App() {
         const respuesta = await fetch(url);
         const datos = await respuesta.json();
 
-        const productosFormateados = datos.map((p: any) => ({
-          id: Number(p.id) || Math.random(),
-          name: p.name || "Sin nombre",
-          price: Number(p.price) || 0,
-          category: p.category || "Otros",
-          description: p.description || "",
-          // CAMBIO 1: Convertimos el texto de la celda en una lista (Array)
-          images: p.image ? p.image.split(',').map((img: string) => img.trim()) : ["/assets/placeholder.webp"],
-          whatsappCode: p.whatsappCode || "GT"
-        }));
+        const productosFormateados = datos.map((p: any) => {
+  // Convertimos el string del Excel en un Array (lista)
+  const listaImagenes = p.image 
+    ? p.image.split(',').map((img: string) => img.trim()) 
+    : ["/assets/placeholder.webp"];
+
+  return {
+    id: Number(p.id) || Math.random(),
+    name: p.name || "Sin nombre",
+    price: Number(p.price) || 0,
+    category: p.category || "Otros",
+    description: p.description || "",
+    images: listaImagenes, // <-- Ahora es una LISTA
+    image: listaImagenes[0], // <-- Mantenemos esta para que el resto del código no sufra
+    whatsappCode: p.whatsappCode || "GT"
+  };
+});
 
         setProducts(productosFormateados);
         setLoading(false);

@@ -3,6 +3,7 @@ export interface Product {
   name: string;
   price: number;
   description: string;
+  image:string;
   images: string[];
   category: string;
   whatsappCode: string;

@@ -34,7 +34,7 @@ export default function App() {
           price: Number(p.price) || 0,
           category: p.category || "Otros",
           description: p.description || "",
-          image: p.image || "",
+          images: p.image ? p.image.split(',').map((img: string) => img.trim()) : ["/assets/placeholder.webp"],
           whatsappCode: p.whatsappCode || "GT"
         }));
 

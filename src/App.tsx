@@ -23,22 +23,24 @@ export default function App() {
         const datos = await respuesta.json();
 
         const productosFormateados = datos.map((p: any) => {
-  // Convertimos el string del Excel en un Array (lista)
-  const listaImagenes = p.image 
-    ? p.image.split(',').map((img: string) => img.trim()) 
-    : ["/assets/placeholder.webp"];
+          // 1. Creamos la lista de imágenes de forma segura
+          const rawImage = String(p.image || "");
+          const listaImagenes = rawImage.includes(',') 
+            ? rawImage.split(',').map((img: string) => img.trim()).filter(img => img !== "")
+            : [rawImage || "/assets/placeholder.webp"];
 
-  return {
-    id: Number(p.id) || Math.random(),
-    name: p.name || "Sin nombre",
-    price: Number(p.price) || 0,
-    category: p.category || "Otros",
-    description: p.description || "",
-    images: listaImagenes, // <-- Ahora es una LISTA
-    image: listaImagenes[0], // <-- Mantenemos esta para que el resto del código no sufra
-    whatsappCode: p.whatsappCode || "GT"
-  };
-});
+          return {
+            id: Number(p.id) || Math.random(),
+            name: p.name || "Sin nombre",
+            price: Number(p.price) || 0,
+            category: p.category || "Otros",
+            description: p.description || "",
+            // Guardamos AMBOS para que el resto del código no falle
+            images: listaImagenes, 
+            image: listaImagenes[0], 
+            whatsappCode: p.whatsappCode || "GT"
+          };
+        });
 
         setProducts(productosFormateados);
         setLoading(false);
